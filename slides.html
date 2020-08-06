@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Sceptic priors and climate consensus</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Grant R. McDermott" />
+    <meta name="date" content="2020-08-06" />
+    <script src="slides_files/header-attrs/header-attrs.js"></script>
+    <link href="slides_files/remark-css/default.css" rel="stylesheet" />
+    <link href="slides_files/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="slides_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Sceptic priors and climate consensus
+## Reed College ERWS
+### Grant R. McDermott
+### August 6, 2020
+
+---
+
+
+&lt;style type="text/css"&gt;
+# CSS for including pauses in printed PDF output (see bottom of lecture)
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+.large4 { font-size: 400% }
+.large2 { font-size: 200% }
+.small90 { font-size: 90% }
+.small75 { font-size: 75% }
+&lt;/style&gt;
+
+
+
+
+
+# Table of contents
+
+1. [Prologue](#prologue)
+
+2. [Introduction](#intro)
+
+3. [Framework](#metrics)
+
+5. [Results](#results)
+
+5. [References](#refs)
+
+---
+class: inverse, center, middle
+name: prologue
+
+# Prologue
+
+---
+
+# Where to find this all
+
+Paper: https://grantmcdermott.com/papers/scepticpriors.pdf
+
+Code: https://github.com/grantmcdermott/sceptic-priors
+
+Slides: https://github.com/grantmcdermott/reed-erws
+
+--
+
+&lt;/br&gt;
+
+Or, if you're ~~a masochist~~ on Twitter: [@grant_mcdermott](https://twitter.com/grant_mcdermott)
+
+---
+class: inverse, center, middle
+name: intro
+
+# Introduction
+
+---
+
+# Motivation
+
+In the beginning, there were climate blogs.
+
+![Source: https://xkcd.com/386/](https://imgs.xkcd.com/comics/duty_calls.png)
+--
+
+&lt;/br&gt;
+&lt;/br&gt;
+Instead of arguing, maybe write a paper about it?
+
+---
+
+# Big picture
+
+&gt; How much evidence would it take to convince climate sceptics that they are wrong?
+
+--
+
+### Approach: Bayesian framework
+- Combine real climate data with a (plausible) range of stylised sceptics.
+- Simple statistical approach rather than a complicated GCM.
+
+--
+
+### Key takeaways
+
+- Available evidence overwhelms all but the most extreme priors.
+- However, convergence with the mainstream is non-linear. Gets harder and harder to convince the "marginal" sceptic.
+
+--
+
+I also argue that a generalised Bayesian model provides a bridge between competing theories of climate scepticism.
+
+---
+
+# Background
+
+Comprehensive climate policy remains elusive.
+- Many policy makers and citizens remain sceptical, despite overwhelming scientific consensus &lt;a name=cite-oreskes2004beyond&gt;&lt;/a&gt;&lt;a name=cite-cook2013quantifying&gt;&lt;/a&gt;&lt;a name=cite-cook2016consensus&gt;&lt;/a&gt;&lt;a name=cite-saad2019americans&gt;&lt;/a&gt;[[1](dx.doi.org/10.1126/science.1103618); [2](http://dx.doi.org/10.1088/1748-9326/8/2/024024); [3](http://dx.doi.org/10.1088/1748-9326/11/4/048002); [4](https://news.gallup.com/poll/248027/americans-concerned-ever-global-warming.aspx)]
+- Especially true in the US.
+
+Lots of research on the cultural and psychological drivers of climate scepticsm. &lt;a name=cite-kahan2011cultural&gt;&lt;/a&gt;&lt;a name=cite-kahan2012polarizing&gt;&lt;/a&gt;&lt;a name=cite-hornsey2016meta&gt;&lt;/a&gt;[[5](dx.doi.org/10.1080/13669877.2010.511246); [6](dx.doi.org/10.1038/nclimate1547); [7](https://doi.org/10.1038/nclimate2943)]
+- Two main schools of thought: 1) cultural cognition VS 2) information deficit.
+- (I'll return to this later.)
+
+--
+
+### This paper
+
+Not so much concerned with the origins of scepticism as its _implications_.
+- How much evidence do we need to change the minds of sceptics?
+- Sounds like we need some Bayes up in here...
+
+---
+
+# Beliefs about climate sensitivity
+
+A convenient way to model sceptic beliefs is by defining them in terms of _climate sensitivity_, i.e. the temperature response to a doubling of CO&lt;sub&gt;2&lt;/sub&gt;.
+
+I focus on **TCR** (transient climate response). According to the IPCC &lt;a name=cite-ipcc2013i&gt;&lt;/a&gt;[[8](http://www.ipcc.ch/report/ar5/wg1/)]: 
+
+--
+
+.pull-left[
+- TCR is "likely" in the range of 1.0–2.5 °C.
+]
+
+.pull-right[
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://www.ipcc.ch/site/assets/uploads/2018/02/FigTS_TFE.6-2-687x1024.jpg" alt="[Source](https://www.ipcc.ch/report/ar5/wg1/technical-summary/)" width="75%" /&gt;
+&lt;p class="caption"&gt;[Source](https://www.ipcc.ch/report/ar5/wg1/technical-summary/)&lt;/p&gt;
+&lt;/div&gt;
+]
+
+---
+count: false
+
+# Beliefs about climate sensitivity
+
+A convenient way to model sceptic beliefs is by defining them in terms of _climate sensitivity_, i.e. the (probabilistic) temperature response to a doubling of CO&lt;sub&gt;2&lt;/sub&gt;.
+
+I focus on **TCR** (transient climate response). According to the IPCC [[8](http://www.ipcc.ch/report/ar5/wg1/)]: 
+
+
+.pull-left[
+- TCR is "likely" in the range of 1.0–2.5 °C.
+- TCR is an inherently Bayesian concept.
+]
+
+.pull-right[
+&gt; *"[T]he probabilistic estimates available in the literature for[...] TCR have all been based, implicitly or explicitly, on adopting a Bayesian approach and therefore, even if it is not explicitly stated, involve using some kind of prior information."* (p. 922)
+]
+
+---
+count: false
+
+# Beliefs about climate sensitivity
+
+A convenient way to model sceptic beliefs is by defining them in terms of _climate sensitivity_, i.e. the (probabilistic) temperature response to a doubling of CO&lt;sub&gt;2&lt;/sub&gt;.
+
+I focus on **TCR** (transient climate response). According to the IPCC [[8](http://www.ipcc.ch/report/ar5/wg1/)]: 
+
+
+.pull-left[
+- TCR is "likely" in the range of 1.0–2.5 °C.
+- TCR is an inherently Bayesian concept.
+]
+
+&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;
+
+
+&lt;b&gt;_tl;dr_&lt;/b&gt; Sceptic beliefs can be presented as a distributions of TCR. Any "learning" about the true value of TCR will be constrained by someone's initial beliefs.
+
+---
+
+# Previous literature
+
+Main differences from previous work stems from a combination of:
+
+--
+
+### 1. Explicit focus on climate sceptics
+- Although, I'll also use a "noninformative" prior to construct a reference TCR distribution.
+- Related: &lt;a name=cite-kelly1999learning&gt;&lt;/a&gt;&lt;a name=cite-wijnbergen2015skeptics&gt;&lt;/a&gt;&lt;a name=cite-kiseleva2016heterogeneous&gt;&lt;/a&gt;[[9](http://www.sciencedirect.com/science/article/pii/S0165188998000347); [10](http://dx.doi.org/10.1016/j.jeem.2014.12.002); [11](https://doi.org/10.1007/s10640-016-0036-0)], etc.
+
+--
+
+### 2. Use of Bayesian time-series regression
+- Much research on the non-stationarity of climate data (😢), but recent work convincingly argues that these are best described as trend-stationary processes with common structural breaks (😃).
+- Related: &lt;a name=cite-gay2009global&gt;&lt;/a&gt;&lt;a name=cite-estrada2013statistically&gt;&lt;/a&gt;&lt;a name=cite-tol1998bayes&gt;&lt;/a&gt;[[12](http://dx.doi.org/10.1007/s10584-008-9524-8); [13](http://dx.doi.org/10.1038/ngeo1999); [14](http://dx.doi.org/10.1023/A:1005390515242)], etc.
+
+---
+class: inverse, center, middle
+name: refs
+
+# References
+
+
+---
+class: inverse, center, middle
+name: metrics
+
+# Econometric framework
+
+---
+
+# Bayesian regression
+
+Estimate probable value of a set of parameters `\(\theta\)`, given data `\(X\)`:
+
+`$$p(\theta|X) = \frac{p(X|\theta)p(\theta)}{p(X)}$$`
+--
+
+where
+
+- `\(p(\theta|X)\)` is the *posterior*. ("What are the probable values of our parameters, given the data?")
+- `\(p(X|\theta)\)` is the *likelihood*. ("How likely are the data given a set of parameters?")
+- `\(p(\theta)\)` is the *prior*. ("What do know about the parameters before we see the data?")
+
+--
+
+The final `\(p(X)\)` term in the denominator is the marginal probability of the data. Since this just acts as a normalisation constant (and be calculated *ad hoc*), we typically re-write as...
+
+---
+
+# Bayesian regression (cont.)
+
+Estimate probable value of a set of parameters `\(\theta\)`, given data `\(X\)`:
+
+`$$p(\theta|X) \propto p(X|\theta)p(\theta)$$`
+&lt;/br&gt;
+&gt; "The posterior is proportional to the likelihood times the prior"
+
+
+--
+
+&lt;/br&gt;
+
+Looks simple enough, but (with a few exceptions) it is impossible to solve for the posterior analytically. Fortunately, we can [solve algorithmically](https://github.com/grantmcdermott/sceptic-priors) using MCMC software (JAGS, BUGS, Stan, etc.)
+
+--
+
+Let's put these pieces together for the current problem.
+
+---
+
+# Likelihood function
+
+Following &lt;a name=cite-estrada2012breaks&gt;&lt;/a&gt;[[15](http://people.bu.edu/perron/workingpapers.html.); [14](http://dx.doi.org/10.1023/A:1005390515242)], I model global temperatures as
+
+$$
+  GMST_t = \alpha_0 + \beta_1RF_t + \gamma_2VOLC_t + \delta_3SOI_t + \eta_4AMO_t + \epsilon_t
+$$
+
+where
+
+- `\(GMST\)` ~ global mean surface temperature
+- `\(RF\)` ~ radiative forcing (CO&lt;sub&gt;2&lt;/sub&gt;, solar, etc.)
+- `\(VOLC\)` ~ volcanic aerosols
+- `\(SOI\)` ~ Southern Oscillation Index (i.e. ENSO)
+- `\(AMO\)` ~ Atlantic Multidecadal Oscillation
+- `\(\epsilon_t = \phi \epsilon_{t-1} + \nu_t\)` ~ AR(1) error process
+
+`\(t\)` runs from 1866 to 2005 (historic data) and then up to 2100 (climate scenarios).
+
+---
+
+# Likelihood (cont.)
+
+$$
+  GMST_t = \alpha_0 + \beta_1RF_t + \gamma_2VOLC_t + \delta_3SOI_t + \eta_4AMO_t + \epsilon_t
+$$
+
+Getting from `\(\beta\)` to TCR is a simple matter of multiplying it by the change in forcing that results from a doubling of CO&lt;sub&gt;2&lt;/sub&gt;.
+
+$$
+\text{TCR} = \beta_1 * F_{2\times}
+$$
+
+where I use the IPCC's best estimate of `\(F_{2\times}=3.71 \text{ Wm}^{-2}\)`.
+
+--
+
+&lt;/br&gt;&lt;/br&gt;
+**Aside:** Have to combine both anthropogenic and natural forcings in composite `\(RF\)` term, because defined i.t.o of same Wm&lt;sup&gt;2&lt;/sup&gt; units. 
+- Separating them out risks (a) severe multicollinearity or (b) model becoming unphysical... Although I still do this as a robustness check it has no effect on the main results.
+
+
+---
+
+# Priors
+
+Define a typology of four basic sceptics, based on their beliefs about TCR. (A noninformative prior will serve as a reference case.)
+
+![](pics/fig-1-priors.png)
+
+---
+class: inverse, center, middle
+name: results
+
+# Results
+
+---
+
+# TCR
+
+![](pics/fig-1.png)
+--
+
+**Bottom line:** Only the hardcore strong denier doesn't converge after seeing all the evidence.
+
+---
+
+# TCR (live updating)
+
+![](pics/fig-1-animation.gif)
+
+--
+name: gif
+
+*Sorry, I know I didn't set the animation up carefully (fixed ratio, etc.) [Here](#recursive) is a still of the recursive estimates if you prefer.*
+
+---
+
+# How much evidence would it take?
+
+![](pics/fig-3.png)
+--
+
+**Takeaway:** If you aren't convinced by the available data today, you probably won't be convinced for many years hence. (Increasingly hard to convince the marginal sceptic.)
+
+---
+
+# Future temps and SCC
+
+![](pics/fig-5.png)
+
+---
+
+# Future temps and SCC (cont.)
+
+![](pics/fig-s2.png)
+
+---
+
+# Bayes as a bridge
+
+In the paper, I return to the _origins_ of climate scepticism.
+
+I argue that a generalised Bayesian framework is able to accommodate competing theories about why climate scepticism exists (persists?) the first place.
+- "Cultural cognition" vs "information deficit"
+
+**Key idea:** Incorporate beliefs about source credibility &amp;mdash; e.g. how trustworthy do I find the IPCC? &amp;mdash; that moderates the learning effect of any new information.
+
+---
+class: inverse, center, middle
+name: conclusions
+
+# Conclusions
+
+---
+
+# Conclusions
+
+### Research question
+
+How much evidence would it take to convince climate sceptics that they are wrong?
+
+### Framework
+
+Bayesian model cominging a range of plausible priors and actual climate data.
+
+### Findings
+
+1. Most subjective priors are overwhelmed by the empirical evidence for climate change.
+
+2. However, convergence with the mainstream is a nonlinear function of prior strength. Increasingly hard to convince the marginal sceptic, so if you aren't persuaded already...
+
+3. Bayes can provide a *lingua franca* between competing theories of climate scepticism as a social phenomenon.
+
+---
+class: inverse, center, middle
+name: refs
+
+# References
+
+---
+
+# References
+
+.small75[
+&lt;a name=bib-oreskes2004beyond&gt;&lt;/a&gt;[[1]](#cite-oreskes2004beyond) N.
+Oreskes. "The Scientific Consensus on Climate Change". In: _Science_
+306 (Mar. 2004), p. 1686. DOI:
+[10.1126/science.1103618](https://doi.org/10.1126%2Fscience.1103618).
+URL:
+[dx.doi.org/10.1126/science.1103618](dx.doi.org/10.1126/science.1103618).
+
+&lt;a name=bib-cook2013quantifying&gt;&lt;/a&gt;[[2]](#cite-cook2013quantifying) J.
+Cook, D. Nuccitelli, S. A. Green, et al. "Quantifying the consensus on
+anthropogenic global warming in the scientific literature". In:
+_Environmental Research Letters_ 8.2 (2013), p. 024024. DOI:
+[doi:10.1088/1748-9326/8/2/024024](https://doi.org/doi%3A10.1088%2F1748-9326%2F8%2F2%2F024024).
+URL:
+[http://dx.doi.org/10.1088/1748-9326/8/2/024024](http://dx.doi.org/10.1088/1748-9326/8/2/024024).
+
+&lt;a name=bib-cook2016consensus&gt;&lt;/a&gt;[[3]](#cite-cook2016consensus) J.
+Cook, N. Oreskes, P. T. Doran, et al. "Consensus on consensus: a
+synthesis of consensus estimates on human-caused global warming". In:
+_Environmental Research Letters_ 11.4 (Apr. 2016), pp. 1-7. DOI:
+[10.1088/1748-9326/11/4/048002](https://doi.org/10.1088%2F1748-9326%2F11%2F4%2F048002).
+URL:
+[http://dx.doi.org/10.1088/1748-9326/11/4/048002](http://dx.doi.org/10.1088/1748-9326/11/4/048002).
+
+&lt;a name=bib-saad2019americans&gt;&lt;/a&gt;[[4]](#cite-saad2019americans) L.
+Saad. _Americans as Concerned as Ever About Global Warming_. Gallup.
+2019. URL:
+[https://news.gallup.com/poll/248027/americans-concerned-ever-global-warming.aspx](https://news.gallup.com/poll/248027/americans-concerned-ever-global-warming.aspx).
+
+&lt;a name=bib-kahan2011cultural&gt;&lt;/a&gt;[[5]](#cite-kahan2011cultural) D. M.
+Kahan, H. Jenkins-Smith, and D. Braman. "Cultural cognition of
+scientific consensus". In: _Journal of Risk Research_ 14.2 (2011), pp.
+147-174. DOI:
+[10.1080/13669877.2010.511246](https://doi.org/10.1080%2F13669877.2010.511246).
+URL:
+[dx.doi.org/10.1080/13669877.2010.511246](dx.doi.org/10.1080/13669877.2010.511246).
+
+&lt;a name=bib-kahan2012polarizing&gt;&lt;/a&gt;[[6]](#cite-kahan2012polarizing) D.
+M. Kahan, E. Peters, M. Wittlin, et al. "The polarizing impact of
+science literacy and numeracy on perceived climate change risks". In:
+_Nature Climate Change_ 2 (2012), pp. 732-735. DOI:
+[10.1038/nclimate1547](https://doi.org/10.1038%2Fnclimate1547). URL:
+[dx.doi.org/10.1038/nclimate1547](dx.doi.org/10.1038/nclimate1547).
+
+&lt;a name=bib-hornsey2016meta&gt;&lt;/a&gt;[[7]](#cite-hornsey2016meta) M. J.
+Hornsey, E. A. Harris, P. G. Bain, et al. "Meta-analyses of the
+determinants and outcomes of belief in climate change". In: _Nature
+Climate Change_ 6.6 (2016), p. 622. DOI:
+[10.1038/nclimate2943](https://doi.org/10.1038%2Fnclimate2943). URL:
+[https://doi.org/10.1038/nclimate2943](https://doi.org/10.1038/nclimate2943).
+]
+
+---
+
+# References (cont.)
+
+.small75[
+&lt;a name=bib-ipcc2013i&gt;&lt;/a&gt;[[8]](#cite-ipcc2013i) IPCC. _Climate Change
+2013: The Physical Science Basis. Contribution of Working Group I to
+the Fifth Assessment Report of the Intergovernmental Panel on Climate
+Change_. Ed. by T. F. Stocker, D. Qin, G. Plattner, M. M. Tignor, S. K.
+Allen, J. Boschung, A. Nauels, Y. Xia, V. Bex and P. M. Midgley. 1st.
+[Stocker, T.F., D. Qin, G.-K. Plattner, M. Tignor, S.K. Allen, J.
+Boschung, A. Nauels, Y. Xia, V. Bex and P.M. Midgley (eds.)], Cambridge
+University Press, 2013, p. 1535. ISBN: 978 0521 88009-1. URL:
+[http://www.ipcc.ch/report/ar5/wg1/](http://www.ipcc.ch/report/ar5/wg1/).
+
+&lt;a name=bib-kelly1999learning&gt;&lt;/a&gt;[[9]](#cite-kelly1999learning) D. L.
+Kelly and C. D. Kolstad. "Bayesian learning, growth, and pollution".
+In: _Journal of Economic Dynamics and Control_ 23.4 (1999), pp.
+491-518. DOI:
+[http://dx.doi.org/10.1016/S0165-1889(98)00034-7](https://doi.org/http%3A%2F%2Fdx.doi.org%2F10.1016%2FS0165-1889%2898%2900034-7).
+URL:
+[http://www.sciencedirect.com/science/article/pii/S0165188998000347](http://www.sciencedirect.com/science/article/pii/S0165188998000347).
+
+&lt;a
+name=bib-wijnbergen2015skeptics&gt;&lt;/a&gt;[[10]](#cite-wijnbergen2015skeptics)
+S. Van Wijnbergen and T. Willems. "Optimal Learning on Climate Change:
+Why climate skeptics should reduce emissions". In: _Journal of
+Environmental Economics and Management_ 70 (Mar. 2015), pp. 17-33. DOI:
+[10.1016/j.jeem.2014.12.002](https://doi.org/10.1016%2Fj.jeem.2014.12.002).
+URL:
+[http://dx.doi.org/10.1016/j.jeem.2014.12.002](http://dx.doi.org/10.1016/j.jeem.2014.12.002).
+
+&lt;a
+name=bib-kiseleva2016heterogeneous&gt;&lt;/a&gt;[[11]](#cite-kiseleva2016heterogeneous)
+T. Kiseleva. "Heterogeneous Beliefs and Climate Catastrophes". In:
+_Environmental and resource economics_ 65.3 (2016), pp. 599-622. DOI:
+[10.1007/s10640-016-0036-0](https://doi.org/10.1007%2Fs10640-016-0036-0).
+URL:
+[https://doi.org/10.1007/s10640-016-0036-0](https://doi.org/10.1007/s10640-016-0036-0).
+
+&lt;a name=bib-gay2009global&gt;&lt;/a&gt;[[12]](#cite-gay2009global) C.
+Gay-Garcia, F. Estrada, and A. Sánchez. "Global and hemispheric
+temperatures revisited". In: _Climatic Change_ 94.3-4 (2009), pp.
+333-349. DOI:
+[10.1007/s10584-008-9524-8](https://doi.org/10.1007%2Fs10584-008-9524-8).
+URL:
+[http://dx.doi.org/10.1007/s10584-008-9524-8](http://dx.doi.org/10.1007/s10584-008-9524-8).
+
+&lt;a
+name=bib-estrada2013statistically&gt;&lt;/a&gt;[[13]](#cite-estrada2013statistically)
+F. Estrada, P. Perron, and B. and Martínez-López. "Statistically
+derived contributions of diverse human influences to twentieth-century
+temperature changes". In: _Nature Geoscience_ 6 (Oct. 2013), pp.
+1050-1055. DOI: [10.1038/NGEO1999](https://doi.org/10.1038%2FNGEO1999).
+URL:
+[http://dx.doi.org/10.1038/ngeo1999](http://dx.doi.org/10.1038/ngeo1999).
+
+&lt;a name=bib-tol1998bayes&gt;&lt;/a&gt;[[14]](#cite-tol1998bayes) R. S. J. Tol
+and A. F. De Vos. "A Bayesian Statistical Analysis of the Enhanced
+Greenhouse Effect". In: _Climatic Change_ 38 (1998), pp. 87-112. DOI:
+[10.1023/A:1005390515242](https://doi.org/10.1023%2FA%3A1005390515242).
+URL:
+[http://dx.doi.org/10.1023/A:1005390515242](http://dx.doi.org/10.1023/A:1005390515242).
+]
+
+---
+name: recursive
+
+# Recursive TCR estimates
+
+&lt;img src="pics/fig-2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+[Go back.](#gif)
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
