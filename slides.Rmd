@@ -306,7 +306,7 @@ where I use the IPCC's best estimate of $F_{2\times}=3.71 \text{ Wm}^{-2}$.
 --
 
 </br></br>
-**Aside:** Have to combine both anthropogenic and natural forcings in composite $RF$ term, because defined i.t.o of same Wm<sup>2</sup> units. 
+**Aside:** Have to combine both anthropogenic and natural forcings in composite $RF$ term, because defined i.t.o of same units (i.e. Wm<sup>-2</sup>). 
 - Separating them out risks (a) severe multicollinearity or (b) model becoming unphysical... Although I still do this as a robustness check it has no effect on the main results.
 
 
