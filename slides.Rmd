@@ -1,7 +1,7 @@
 ---
 title: "Sceptic priors and climate consensus"
 subtitle: "Reed College ERWS"
-author: "Grant R. McDermott"
+author: "Grant R. McDermott | University of Oregon"
 date: "August 6, 2020"
 output: 
   xaringan::moon_reader:
