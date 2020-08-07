@@ -55,9 +55,11 @@ bib = ReadBib("scepticpriors.bib")
 
 3. [Framework](#metrics)
 
-5. [Results](#results)
+4. [Results](#results)
 
-5. [References](#refs)
+5. [Conclusions](#conclusions)
+
+6. [References](#refs)
 
 ---
 class: inverse, center, middle
@@ -297,9 +299,7 @@ $$
 
 Getting from $\beta$ to TCR is a simple matter of multiplying it by the change in forcing that results from a doubling of CO<sub>2</sub>.
 
-$$
-\text{TCR} = \beta_1 * F_{2\times}
-$$
+$$\text{TCR} = \beta_1 \cdot F_{2\times}$$
 
 where I use the IPCC's best estimate of $F_{2\times}=3.71 \text{ Wm}^{-2}$.
 
